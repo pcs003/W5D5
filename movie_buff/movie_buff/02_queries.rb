@@ -37,11 +37,21 @@ def vanity_projects
   # Show the movie id and title and director's name.
 
   # Note: Directors appear in the 'actors' table.
-
+  Movie
+    .select(:id, :title, 'actors.name')
+    .joins(:actors)
+    .where('movies.director_id = castings.actor_id')
+    .where('castings.ord = 1')
 end
 
 def most_supportive
   # Find the two actors with the largest number of non-starring roles.
   # Show each actor's id, name and number of supporting roles.
-
+  Actor
+    .select(:id, :name, 'COUNT(*) AS roles')
+    .joins(:movies)
+    .group(:id)
+    .where('castings.ord != 1')
+    .order('roles DESC, id')
+    .limit(2)
 end
