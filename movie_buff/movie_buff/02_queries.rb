@@ -10,7 +10,15 @@ end
 
 def bad_years
   # List the years in which a movie with a rating above 8 was not released.
-  
+  Movie
+    .group(:yr)
+    .having('')
+    .pluck(:yr)
+    # .joins(castings: :movies)
+    # .where.not('yr IN (?)', Movie.where('score > 8').group(:yr).pluck(:yr))
+    # .distinct
+    # .pluck(:yr)
+    
 end
 
 def cast_list(title)
